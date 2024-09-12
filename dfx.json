@@ -1,0 +1,25 @@
+{
+  "canisters": {
+    "certifyd_backend": {
+      "main": "src/certifyd_backend/main.mo",
+      "type": "motoko"
+    },
+    "certifyd_frontend": {
+      "dependencies": [
+        "certifyd_backend"
+      ],
+      "source": [
+        "src/certifyd_frontend/assets"
+      ],
+      "type": "assets"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
