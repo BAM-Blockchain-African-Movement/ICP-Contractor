@@ -7,6 +7,7 @@ import StudentPage from './hiddenPages/StudentPage.tsx/StudentPage';
 import UniversitiesPage from './hiddenPages/UniversityPage/UniversityPage';
 import DashboardPage from './hiddenPages/DashboardPage/DashboardPage';
 import AuthenticationPage from './hiddenPages/AuthPage/AuthentificationPage';
+import PageLayout from './layout/PageLayout';
 
 import { initializeApp } from "firebase/app";
 
@@ -24,19 +25,19 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 function App() {
-  return (
-    <Router>
-      <Routes>
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <Route path='/' element={<PageLayout />}/>
         <Route path='/login' element={<LoginPage firebaseApp={app} />} />
         <Route path='/signup' element={<SignupPage firebaseApp={app} />} />
-        <Route path='/' element={<HomePage />}/>
+        <Route index element={<HomePage />}/>
         <Route path='/student' element={<StudentPage />}/>
         <Route path='/university' element={<UniversitiesPage />}/>
         <Route path='/auth' element={<AuthenticationPage />} />
         {/* <Route path='/student/{id}' element={<DashboardPage />}/> */}
-      </Routes>
-    </Router>
+    )
   )
+  return <RouteProvider router={router} />;
 }
 
 export default App;

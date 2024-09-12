@@ -2,6 +2,7 @@
 import { Button, ButtonProps } from "@relume_io/relume-ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUpload, faDiagramProject, faChartGantt, faFingerprint } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 type Props = {
   heading: string;
@@ -24,9 +25,11 @@ export const Cta = (props: Cta25Props) => {
         <p className="md:text-lg">{description}</p>
         <div className="mt-6 flex items-center justify-center gap-4 md:mt-8">
           {buttons.map((button, index) => (
-            <Button className="mt-8 px-6 py-4 rounded-lg bg-gradient-to-r font-bold from-blue-500 to-blue-700 text-white hover:from-blue-700 hover:to-blue-900 transition duration-300" key={index} {...button}>
-              {button.title}
-            </Button>
+            <Link to="/signup">
+              <Button className="mt-8 px-6 py-4 rounded-lg bg-gradient-to-r font-bold from-blue-500 to-blue-700 text-white hover:from-blue-700 hover:to-blue-900 transition duration-300" key={index} {...button}>
+                {button.title}
+              </Button>
+            </Link>
           ))}
         </div>
       </div>
