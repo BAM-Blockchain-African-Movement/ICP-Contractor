@@ -7,7 +7,10 @@ import StudentPage from './pages/StudentPage.tsx/StudentPage';
 import UniversitiesPage from './pages/UniversityPage/UniversityPage';
 import DashboardPage from './pages/DashboardPage/DashboardPage';
 import AuthenticationPage from './pages/AuthPage/AuthentificationPage';
-import PageLayout from './layout/PageLayout';
+import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
+import InformationPage from './pages/InformationPage/InformationPage';
+
+import PageLayout from './layout/pageLayout';
 
 import { initializeApp } from "firebase/app";
 
@@ -23,19 +26,22 @@ const firebaseConfig = {
 
 // Initialise Firebase avec votre configuration
 const app = initializeApp(firebaseConfig);
+const ownerId = '009';
 
 function App() {
-  const router = createBrowserRouter(
-    createRoutesFromElements(
-      <Route path='/' element={<PageLayout />}>
-        <Route path='/login' element={<LoginPage firebaseApp={app} />} />
-        <Route path='/signup' element={<SignupPage firebaseApp={app} />} />
-        <Route index element={<HomePage />}/>
-        <Route path='/student' element={<StudentPage />}/>
-        <Route path='/university' element={<UniversitiesPage />}/>
-        <Route path='/auth' element={<AuthenticationPage />} />
-        {/* <Route path='/student/{id}' element={<DashboardPage />}/> */}
-      </Route>
+    const router = createBrowserRouter(
+      createRoutesFromElements(
+        <Route path='/' element={<PageLayout />}>
+          <Route path='/login' element={<LoginPage />} />
+          <Route path='/signup' element={<SignupPage />} />
+          <Route path='/' element={<HomePage />}/>
+          <Route path='/student' element={<StudentPage />}/>
+          <Route path='/university' element={<UniversitiesPage />}/>
+          <Route path='/auth/:id' element={<AuthenticationPage />} />
+          <Route path='/info' element={<InformationPage />} />
+          <Route path='/student/:id' element={<DashboardPage ownerId={ ownerId } />}/>
+          <Route path='*' element= {<NotFoundPage />} />
+          </Route>
     )
   )
   return <RouterProvider router={router} />;

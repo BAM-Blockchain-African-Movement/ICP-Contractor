@@ -10,7 +10,7 @@ import certifydlogo from "./../../assets/logo.png";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 
-import { userAuth } from '../../declarations/userAuth';  // Adjust path based on where dfx generated files
+import { main } from '../../../declarations/main';  // Adjust path based on where dfx generated files
 
 type ImageProps = {
   url?: string;
@@ -59,7 +59,7 @@ export const Signup7 = (props: Signup7Props) => {
     event.preventDefault();
     const hashedPassword = sha256(password).toString();
     try {
-      userAuth.signup(username, email, passwordHash);
+      const result = await main.signup(name, email, password);
       if (result) {
         alert('Signup successful');
       } else {

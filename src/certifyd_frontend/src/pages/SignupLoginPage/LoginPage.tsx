@@ -10,7 +10,7 @@ import certifydlogo from "./../../assets/logo.png";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 
-import { userAuth } from '../../declarations/userAuth';  // Adjust path accordingly
+import { main } from '../../declarations/main';  // Adjust path accordingly
 
 
 type ImageProps = {
@@ -59,12 +59,12 @@ export const Login = (props: Login7Props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const passwordHash = sha256(password).toString();  // Hash the password on the client-side
     try {
-      const result = await userAuth.login(email, passwordHash);
+      const result = await main.login(email, passwordHash);
       if (result) {
         alert('Login successful');
       } else {

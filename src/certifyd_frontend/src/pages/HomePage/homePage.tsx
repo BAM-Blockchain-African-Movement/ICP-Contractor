@@ -9,12 +9,10 @@ import Navbar from '../../components/Navbar'
 const HomePage = () => {
   return (
     <>
-        <Navbar />
         <Header />
         <Cta />
         <Layout />
         <Testimonial />
-        <Footer />
     </>
   )
 }

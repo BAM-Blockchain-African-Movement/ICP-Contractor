@@ -1,7 +1,6 @@
 import { Button } from "@relume_io/relume-ui";
 import type { ButtonProps } from "@relume_io/relume-ui";
 import headerimage from "./../../assets/ceremony-1866532_1280.jpg";
-import { Link } from 'react-router-dom';
 
 type ImageProps = {
   src: string;
@@ -32,11 +31,11 @@ export const Header = (props: Header1Props) => {
               <p className="mb-5 text-xl">
               Mint your certified diploma as an NFT and track its authenticity on the blockchain. Revolutionize the way you manage and verify your academic achievements.
               </p>
-              <Link to="/login">
+              <a href="/login">
               <button className="mt-8 px-6 py-4 rounded-lg bg-gradient-to-r font-bold from-blue-500 to-blue-700 text-white hover:from-blue-700 hover:to-blue-900 transition duration-300">
                 Get Started
               </button>
-              </Link>
+              </a>
             </div>
           </div>
         </div>

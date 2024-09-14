@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 // import { mintNFTWithDiplomaInfo } from './mintingService';
 import mintNFT from "./../../assets/nft_minting.webp";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 const ForStudentsPage = () => {
   
@@ -20,6 +22,8 @@ const ForStudentsPage = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  import { main } from '../../../declarations/main'; 
   
   const handleDataSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -27,12 +31,13 @@ const ForStudentsPage = () => {
     console.log({ email, password });
   };
 
-
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       setDiploma(e.target.files[0]);
     }
   };
+
+  const navigate = useNavigate();
 
   const handleDiplomaSubmit =async (e) => {
     e.preventDefault();
@@ -57,13 +62,16 @@ const ForStudentsPage = () => {
       // // call the NFT generation method
       // setNftId(response.nftId);
       // setNftLink(response.nftLink);
+      const result = await main.mint(owner, metadata, diplomaInfo);
       setLoading(false);
       setSuccessMessage("Your diploma has been successfully authenticated and minted as an NFT!");
+
     }
+    return navigate('/dashboard');
   };
 
   return (
-    <div className="min-h-screen w-screen bg-white font-inria text-gray-700">
+    <div className="min-h-screen w-screen font-Inria bg-white text-gray-700">
 
       {/* Hero Section */}
       <section className="bg-blue-100 py-16 text-center px-[15%]">
@@ -212,9 +220,11 @@ const ForStudentsPage = () => {
 
       {/* Call to Action */}
       <section className="text-center py-12 bg-blue-600">
-        <button className="px-6 py-3 rounded-full bg-white text-blue-600 hover:bg-gray-200">
-          Learn About NFT Diploma Security
-        </button>
+        <Link to="/info">
+          <button className="px-6 py-3 rounded-full bg-white text-blue-600 hover:bg-gray-200">
+            Learn About NFT Diploma Security
+          </button>
+        </Link>
       </section>
     </div>
   );

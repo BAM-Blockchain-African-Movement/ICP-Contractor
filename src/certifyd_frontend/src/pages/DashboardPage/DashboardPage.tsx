@@ -1,23 +1,44 @@
 import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate} from 'react-router-dom';
+
+import QRCode from 'react-qr-code';
+import Spinner from './../../components/Spinner';
+
+import { main } from '../../../declarations/main';  // Adjust path accordingly
+
 
 interface NFTStats {
   verificationAttempts: number;
   shareCount: number;
 }
 
-const DashboardPage = ({ nftId, nftLink }: { nftId: string, nftLink: string }) => {
+const DashboardPage = ({ ownerId }: { ownerId: string }) => {
   const [stats, setStats] = useState<NFTStats | null>(null);
+  const [NFTsNumber, setNFTsNumber] = useState(1);
+  const [owner, setOwner] = useState('');
+  const [loading, setLoading] = useState(true);
+  const { id } = useParams();
+
+  const nftLink =  `http://localhost:5173/auth/{ id }`;
 
   // Simulate fetching NFT stats
   useEffect(() => {
     const fetchStats = async () => {
       // Simulate API call to get stats
-      setTimeout(() => {
-        setStats({
-          verificationAttempts: 42,
-          shareCount: 10,
-        });
-      }, 1500);
+      try {
+        const result = main.getNFTsByOwner(owner);
+        setTimeout(() => {
+          setNFTsNumber(result.number);
+          setStats({
+            verificationAttempts: 2,
+            shareCount: 10,
+          });
+        }, 1500);
+      } catch(error) {
+        console.log('Error fecthing data fro the backend canister: /n>>>' + error)
+      } finally {
+        setLoading(false);
+      }
     };
     fetchStats();
   }, []);
@@ -37,27 +58,37 @@ const DashboardPage = ({ nftId, nftLink }: { nftId: string, nftLink: string }) =
   return (
     <div className="max-w-4xl mx-auto py-16">
       <h1 className="text-3xl font-bold mb-6">Your NFT Dashboard</h1>
-      <div className="bg-white p-6 rounded-lg shadow-lg">
-        <p>Your NFT ID: <span className="text-blue-600">{nftId}</span></p>
-        <p>View and Share: <a href={nftLink} className="text-blue-600 underline">{nftLink}</a></p>
-        
-        {/* Statistics */}
-        {stats ? (
-          <div className="mt-6">
-            <p>Verification Attempts: <span className="font-semibold">{stats.verificationAttempts}</span></p>
-            <p>Shares: <span className="font-semibold">{stats.shareCount}</span></p>
-          </div>
-        ) : (
-          <p>Loading statistics...</p>
-        )}
+      
+      { loading ? (
+          <Spinner loading={loading} />
+      ) : (
+        <div>
+          <h4 className="text-xl font-bold mb-6 ml-8">You have actually minted 1 diplomas</h4>
+          <div className="text-xl bg-white p-6 rounded-lg shadow-lg">
+            <p>User ID: <span className="text-blue-600">{ownerId}</span></p>
+            <p>View and Share: <a href={nftLink} className="text-blue-600 underline">{nftLink}</a></p>
+            <p>Using a QRCode</p>
+            <QRCode value= { nftLink } />
+            
+            {/* Statistics */}
+            {stats ? (
+              <div className="mt-6">
+                <p>Verification Attempts: <span className="font-semibold">{stats.verificationAttempts}</span></p>
+                <p>Shares: <span className="font-semibold">{stats.shareCount}</span></p>
+              </div>
+            ) : (
+              <p>Loading statistics...</p>
+            )}
 
-        {/* Social Sharing Buttons */}
-        <div className="mt-8">
-          <button onClick={shareOnLinkedIn} className="btn btn-outline btn-primary mr-4">Share on LinkedIn</button>
-          <button onClick={shareOnTwitter} className="btn btn-outline btn-primary mr-4">Share on Twitter</button>
-          <button onClick={shareOnWhatsApp} className="btn btn-outline btn-primary">Share on WhatsApp</button>
+            {/* Social Sharing Buttons */}
+            <div className="mt-8">
+              <button onClick={shareOnLinkedIn} className="text-sm  mt-8 mx-2 px-3 py-2 rounded-full bg-blue-600  text-white hover:bg-blue-700">Share on LinkedIn</button>
+              <button onClick={shareOnTwitter} className="text-sm  mt-8 mx-2 px-3 py-2 rounded-full bg-blue-600 text-white hover:bg-blue-700">Share on Twitter</button>
+              <button onClick={shareOnWhatsApp} className="text-sm  mt-8 mx-2 px-3 py-2 rounded-full bg-blue-600 text-white hover:bg-blue-700">Share on WhatsApp</button>
+            </div>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

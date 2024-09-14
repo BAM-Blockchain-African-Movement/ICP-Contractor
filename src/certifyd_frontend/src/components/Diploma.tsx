@@ -25,7 +25,7 @@ const Diploma: React.FC<DiplomaProps> = ({
             <img 
               src={profilePicture} 
               alt={fullName} 
-              className="w-32 h-32 rounded-full border-4 border-blue-600 mb-4"
+              className="size-80 rounded-full border-4 border-blue-600 mb-4 p-4"
             />
             <h2 className="text-3xl font-bold text-blue-700">{fullName}</h2>
           </div>

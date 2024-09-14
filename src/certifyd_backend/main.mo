@@ -87,6 +87,11 @@ actor MintingCanister {
     return Array.filter(nfts, func (nft: NFT): Bool { nft.owner_id == owner });
   };
 
+  public func getOwnerNFTsNumber(owner: Principal): async Nat {
+    Debug.print(debug_show("--- Getting NFTs by owner " # Principal.toText(owner) # " ---"));
+    return Array.size(Array.filter(nfts, func (nft: NFT): Bool { nft.owner_id == owner }));
+  };
+
   // Function to get all NFTs
   public func getAllNFTs(): async [NFT] {
     Debug.print(debug_show("--- Getting all NFTs ---"));
