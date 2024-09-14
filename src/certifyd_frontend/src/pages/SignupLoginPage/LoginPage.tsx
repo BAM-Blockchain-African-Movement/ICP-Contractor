@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { sha256 } from 'js-sha256';
 import { Button, Input, Label } from "@relume_io/relume-ui";
 import type { ButtonProps } from "@relume_io/relume-ui";
 import { BiLogoGoogle } from "react-icons/bi";
@@ -8,6 +9,9 @@ import login from "./../../assets/login.jpg";
 import certifydlogo from "./../../assets/logo.png";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
+
+import { userAuth } from '../../declarations/userAuth';  // Adjust path accordingly
+
 
 type ImageProps = {
   url?: string;
@@ -57,7 +61,19 @@ export const Login = (props: Login7Props) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log({ email, password });
+
+    const passwordHash = sha256(password).toString();  // Hash the password on the client-side
+    try {
+      const result = await userAuth.login(email, passwordHash);
+      if (result) {
+        alert('Login successful');
+      } else {
+        alert('Invalid credentials');
+      }
+      console.log({ email, password });
+    } catch (error) {
+      console.error('Login failed:', error);
+    }
   };
 
   return (
@@ -76,7 +92,7 @@ export const Login = (props: Login7Props) => {
               <h1 className="mb-5 text-3xl font-bold md:mb-6 md:text-4xl lg:text-6xl">Log In</h1>
               <p className="md:text-md">{description}</p>
             </div>
-            <form className="grid grid-cols-1 gap-6" onSubmit={handleSubmit}>
+            <form className="grid grid-cols-1 gap-6" onSubmit={ handleSubmit }>
               <div className="grid w-full items-center">
                 <Label htmlFor="email" className="mb-1 font-bold text-blue-700">
                   Email *

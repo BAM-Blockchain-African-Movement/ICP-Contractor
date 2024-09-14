@@ -1,15 +1,19 @@
 // Importing necessary modules
+import Text "mo:base/Text";
 import Nat "mo:base/Nat";
 import Debug "mo:base/Debug";
 import Principal "mo:base/Principal";
 import Array "mo:base/Array";
+import HashMap "mo:base/HashMap";
+import Hash "mo:base/Hash";
+import Result "mo:base/Result";
 
 // user information
 type User = {
   id: Principal;
   username: Text;
   email: Text;
-  diplomaNumber: Nat;
+  passwordHash: Text;
 };
 
 // Define the NFT data type
@@ -33,6 +37,35 @@ actor MintingCanister {
   // Variable to store the NFTs
   var nfts: [NFT] = [];
   var nextId: Nat = 0000;
+
+  stable var users : [User] = [];
+
+
+  // Function to handle user signup
+    public shared func signup(username: Text, email: Text, passwordHash: Text) : async Bool {
+        // Check if user already exists
+        let existingUser = Array.find(users, func(user: User) : Bool { user.email == email });
+        if (existingUser != null) {
+            return false; // User already exists
+        };
+
+        // Add new user to the list
+        let newUser: User = { id=Principal.fromText(email); username; email; passwordHash };
+        users := Array.append(users, [newUser]);
+
+        return true;
+    };
+
+// Function to handle user login
+    public shared func login(email: Text, password: Text) : async Bool {
+        // Check if the user exists with the correct password
+        let existingUser = Array.find(users, func(user: User) : Bool { user.email == email and user.passwordHash == password });
+        if (existingUser == null) {
+            return false; // User not found or password incorrect
+        };
+
+        return true;
+    };
 
   // Function to mint a new NFT // Add a new NFT to the array
   public func mint(owner: Principal, metadata: Text, diplomaInfo: DiplomaInfo ): async NFT {

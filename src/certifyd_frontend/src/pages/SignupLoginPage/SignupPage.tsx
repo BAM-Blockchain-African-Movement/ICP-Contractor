@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { sha256 } from 'js-sha256';
 import { Button, Input, Label } from "@relume_io/relume-ui";
 import type { ButtonProps } from "@relume_io/relume-ui";
 import { BiLogoGoogle } from "react-icons/bi";
@@ -8,6 +9,8 @@ import signup from "./../../assets/signup.jpg";
 import certifydlogo from "./../../assets/logo.png";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
+
+import { userAuth } from '../../declarations/userAuth';  // Adjust path based on where dfx generated files
 
 type ImageProps = {
   url?: string;
@@ -52,9 +55,24 @@ export const Signup7 = (props: Signup7Props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log({ name, email, password });
+    const hashedPassword = sha256(password).toString();
+    try {
+      userAuth.signup(username, email, passwordHash);
+      if (result) {
+        alert('Signup successful');
+      } else {
+        alert('User already exists');
+      }
+      console.log({ name, email, hashedPassword });
+    } catch (error) {
+      console.error('Signup failed:', error);
+    }
+    
+    
+    // TODO: Send data to Motoko canister
+    // Example: await yourCanisterActor.signup(name, email, hashedPassword);
   };
 
   return (

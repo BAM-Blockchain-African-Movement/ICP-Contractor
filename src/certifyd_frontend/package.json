@@ -10,8 +10,21 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@dfinity/agent": "^2.0.0",
+    "@dfinity/candid": "^2.0.0",
+    "@dfinity/identity": "^2.0.0",
+    "@fortawesome/fontawesome-svg-core": "^6.6.0",
+    "@fortawesome/react-fontawesome": "^0.2.2",
+    "@relume_io/relume-tailwind": "^0.4.0",
+    "@relume_io/relume-ui": "^0.4.0",
+    "daisyui": "^4.12.10",
+    "firebase": "^10.13.0",
+    "react-spinners": "^0.14.1",
+    "react-toastify": "^10.0.5",
+    "qrcode.react": "^4.0.1",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",

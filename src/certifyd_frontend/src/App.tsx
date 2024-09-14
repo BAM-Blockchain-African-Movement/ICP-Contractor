@@ -1,12 +1,12 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import LoginPage from './hiddenPages/SignupLoginPage/LoginPage';
-import SignupPage from './hiddenPages/SignupLoginPage/SignupPage';
-import HomePage from './hiddenPages/HomePage/homePage';
-import StudentPage from './hiddenPages/StudentPage.tsx/StudentPage';
-import UniversitiesPage from './hiddenPages/UniversityPage/UniversityPage';
-import DashboardPage from './hiddenPages/DashboardPage/DashboardPage';
-import AuthenticationPage from './hiddenPages/AuthPage/AuthentificationPage';
+import { Route, Router, createBrowserRouter, createRoutesFromElements, RouterProvider } from 'react-router-dom';
+import LoginPage from './pages/SignupLoginPage/LoginPage';
+import SignupPage from './pages/SignupLoginPage/SignupPage';
+import HomePage from './pages/HomePage/homePage';
+import StudentPage from './pages/StudentPage.tsx/StudentPage';
+import UniversitiesPage from './pages/UniversityPage/UniversityPage';
+import DashboardPage from './pages/DashboardPage/DashboardPage';
+import AuthenticationPage from './pages/AuthPage/AuthentificationPage';
 import PageLayout from './layout/PageLayout';
 
 import { initializeApp } from "firebase/app";
@@ -27,7 +27,7 @@ const app = initializeApp(firebaseConfig);
 function App() {
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path='/' element={<PageLayout />}/>
+      <Route path='/' element={<PageLayout />}>
         <Route path='/login' element={<LoginPage firebaseApp={app} />} />
         <Route path='/signup' element={<SignupPage firebaseApp={app} />} />
         <Route index element={<HomePage />}/>
@@ -35,9 +35,10 @@ function App() {
         <Route path='/university' element={<UniversitiesPage />}/>
         <Route path='/auth' element={<AuthenticationPage />} />
         {/* <Route path='/student/{id}' element={<DashboardPage />}/> */}
+      </Route>
     )
   )
-  return <RouteProvider router={router} />;
+  return <RouterProvider router={router} />;
 }
 
 export default App;

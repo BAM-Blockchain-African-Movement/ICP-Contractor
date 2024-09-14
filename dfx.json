@@ -8,6 +8,9 @@
       "dependencies": [
         "certifyd_backend"
       ],
+      "frontend": {
+        "entrypoint": "src/certifyd_frontend/react/index.html"
+      },
       "source": [
         "src/certifyd_frontend/assets"
       ],
