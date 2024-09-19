@@ -1,16 +1,14 @@
-"use client";
-
 import { useState } from "react";
 import { sha256 } from 'js-sha256';
 import { Button, Input, Label } from "@relume_io/relume-ui";
 import type { ButtonProps } from "@relume_io/relume-ui";
 import { BiLogoGoogle } from "react-icons/bi";
 import signup from "./../../assets/signup.jpg";
-import certifydlogo from "./../../assets/logo.png";
+// import certifydlogo from "./../../assets/logo.png";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 
-import { main } from '../../../declarations/main';  // Adjust path based on where dfx generated files
+import { certifyd_backend } from '../../../../declarations/certifyd_backend';  // Adjust path based on where dfx generated files
 
 type ImageProps = {
   url?: string;
@@ -37,15 +35,11 @@ export type Signup7Props = React.ComponentPropsWithoutRef<"section"> & Partial<P
 
 export const Signup7 = (props: Signup7Props) => {
   const {
-    logo,
-    title,
     description,
     signUpButton,
-    signUpWithGoogleButton,
     image,
     logInText,
     logInLink,
-    footerText,
   } = {
     ...Signup7Defaults,
     ...props,
@@ -59,7 +53,7 @@ export const Signup7 = (props: Signup7Props) => {
     event.preventDefault();
     const hashedPassword = sha256(password).toString();
     try {
-      const result = await main.signup(name, email, password);
+      const result = await certifyd_backend.signup(name, email, password);
       if (result) {
         alert('Signup successful');
       } else {

@@ -1,4 +1,3 @@
-import { Button } from "@relume_io/relume-ui";
 import type { ButtonProps } from "@relume_io/relume-ui";
 import { RxChevronRight } from "react-icons/rx";
 import img1 from "./../../assets/university1.avif"

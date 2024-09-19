@@ -1,16 +1,14 @@
-"use client";
-
 import { useState } from "react";
 import { sha256 } from 'js-sha256';
 import { Button, Input, Label } from "@relume_io/relume-ui";
 import type { ButtonProps } from "@relume_io/relume-ui";
 import { BiLogoGoogle } from "react-icons/bi";
 import login from "./../../assets/login.jpg";
-import certifydlogo from "./../../assets/logo.png";
+// import certifydlogo from "./../../assets/logo.png";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 
-import { main } from '../../declarations/main';  // Adjust path accordingly
+import { certifyd_backend } from '../../../../declarations/certifyd_backend';  // Adjust path accordingly
 
 
 type ImageProps = {
@@ -42,8 +40,6 @@ export type Login7Props = React.ComponentPropsWithoutRef<"section"> & Partial<Pr
 
 export const Login = (props: Login7Props) => {
   const {
-    logo,
-    title,
     description,
     logInButton,
     forgotPassword,
@@ -64,7 +60,7 @@ export const Login = (props: Login7Props) => {
 
     const passwordHash = sha256(password).toString();  // Hash the password on the client-side
     try {
-      const result = await main.login(email, passwordHash);
+      const result = await certifyd_backend.login(email, passwordHash);
       if (result) {
         alert('Login successful');
       } else {

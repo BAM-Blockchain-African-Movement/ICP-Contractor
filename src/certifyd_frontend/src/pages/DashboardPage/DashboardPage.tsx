@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate} from 'react-router-dom';
+import { useEffect, useState } from 'react';
+// import { useParams, useNavigate} from 'react-router-dom';
 
 import QRCode from 'react-qr-code';
 import Spinner from './../../components/Spinner';
 
-import { main } from '../../../declarations/main';  // Adjust path accordingly
-
+import { certifyd_backend } from '../../../../declarations/certifyd_backend';  // Adjust path accordingly
+import { Principal } from '@dfinity/principal';
 
 interface NFTStats {
   verificationAttempts: number;
@@ -15,9 +15,10 @@ interface NFTStats {
 const DashboardPage = ({ ownerId }: { ownerId: string }) => {
   const [stats, setStats] = useState<NFTStats | null>(null);
   const [NFTsNumber, setNFTsNumber] = useState(1);
-  const [owner, setOwner] = useState('');
   const [loading, setLoading] = useState(true);
-  const { id } = useParams();
+  // const { id } = useParams();
+  const owner = '';
+  
 
   const nftLink =  `http://localhost:5173/auth/{ id }`;
 
@@ -26,9 +27,9 @@ const DashboardPage = ({ ownerId }: { ownerId: string }) => {
     const fetchStats = async () => {
       // Simulate API call to get stats
       try {
-        const result = main.getNFTsByOwner(owner);
+        const result = certifyd_backend.getOwnerNFTsNumber(Principal.fromText(owner));
         setTimeout(() => {
-          setNFTsNumber(result.number);
+          setNFTsNumber(Number(result));
           setStats({
             verificationAttempts: 2,
             shareCount: 10,
@@ -63,7 +64,7 @@ const DashboardPage = ({ ownerId }: { ownerId: string }) => {
           <Spinner loading={loading} />
       ) : (
         <div>
-          <h4 className="text-xl font-bold mb-6 ml-8">You have actually minted 1 diplomas</h4>
+          <h4 className="text-xl font-bold mb-6 ml-8">{ `You have actually minted ${ NFTsNumber } diplomas` }</h4>
           <div className="text-xl bg-white p-6 rounded-lg shadow-lg">
             <p>User ID: <span className="text-blue-600">{ownerId}</span></p>
             <p>View and Share: <a href={nftLink} className="text-blue-600 underline">{nftLink}</a></p>

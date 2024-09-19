@@ -2,13 +2,15 @@ import React, { useState } from "react";
 // import { mintNFTWithDiplomaInfo } from './mintingService';
 import mintNFT from "./../../assets/nft_minting.webp";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from 'react-toastify';
+// import { toast } from 'react-toastify';
+
+import { Principal } from '@dfinity/principal';
+
+import { certifyd_backend } from '../../../../declarations/certifyd_backend'; 
 
 const ForStudentsPage = () => {
   
   const [diploma, setDiploma] = useState<File | null>(null);
-  const [owner, setOwner] = useState('');
-  const [metadata, setMetadata] = useState('');
   const [diplomaType, setDiplomaType] = useState('');
   const [institution, setInstitution] = useState('');
   const [graduationDate, setGraduationDate] = useState('');
@@ -19,21 +21,19 @@ const ForStudentsPage = () => {
   const [dataSubmit, setDataSubmit] = useState(false);
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  import { main } from '../../../declarations/main'; 
+  const metadata = '';
+  const owner = '';
   
   const handleDataSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setDataSubmit(true);
-    console.log({ email, password });
   };
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setDiploma(e.target.files[0]);
+    if (dataSubmit) {
+      if (e.target.files) {
+        setDiploma(e.target.files[0]);
+      }
     }
   };
 
@@ -45,28 +45,27 @@ const ForStudentsPage = () => {
       diplomaType,
       institution,
       graduationDate,
-      fullName,
+      studentName: fullName,
       description,
     };
 
     try {
+      if (diploma) {
+        const result = await certifyd_backend.mint(Principal.fromText(owner), metadata, diplomaInfo);
+        setNftId(result.id.toString());
+        setNftLink('https://provide-a-link-to-the-Authpage/:id')
+        setSuccessMessage(' Your NFT has been minted succesfully');
+      }
       // setStatus('Minting in progress...');
       // const result = await mintNFTWithDiplomaInfo(owner, metadata, diplomaInfo);
       // setStatus(`NFT minted successfully: ID ${result.id}`);
     } catch (error) {
-      // setStatus('Failed to mint NFT.');
+      setSuccessMessage('Failed to mint NFT.');
       console.error('Minting failed', error);
-    }
-
-    if (diploma) {
-      // // call the NFT generation method
-      // setNftId(response.nftId);
-      // setNftLink(response.nftLink);
-      const result = await main.mint(owner, metadata, diplomaInfo);
+    } finally {
       setLoading(false);
-      setSuccessMessage("Your diploma has been successfully authenticated and minted as an NFT!");
-
     }
+    
     return navigate('/dashboard');
   };
 
@@ -96,11 +95,11 @@ const ForStudentsPage = () => {
                   Institution Name *
                 </label>
                 <input
-                  type="institution"
-                  id="email"
-                  value={email}
+                  type="text"
+                  id="institution"
+                  value={institution}
                   className="bg-transparent pl-4 rounded-full border-2 border-blue-700 py-1 mb-4"
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => setInstitution(e.target.value)}
                   required
                 />
                 <label htmlFor="email" className="text-start px-4 font-bold text-blue-700">
@@ -108,17 +107,25 @@ const ForStudentsPage = () => {
                 </label>
                 <input
                   type="email"
-                  id="email"
-                  value={email}
+                  id="description"
+                  value={description}
                   className="bg-transparent rounded-full border-2 border-blue-700 py-1 "
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => setDescription(e.target.value)}
                   required
                 />
+                <label htmlFor="date" className="text-start px-4 font-bold text-blue-700">Issued Date</label>
+                <input 
+                type="date" 
+                name="date" 
+                id="date" 
+                value={graduationDate}
+                className="bg-transparent rounded-full border-2 border-blue-700 py-1 "
+                onChange={(e) => setGraduationDate(e.target.value)}/>
                 <label htmlFor="diplomaType" className="mt-4 text-start px-4 font-bold text-blue-700">
                   Diploma Type *
                 </label>
                 <select
-              id="diplomaType"
+              id="diploma-type"
               value={ diplomaType }
               defaultValue={ "BTS" }
               className="mb-4 bg-transparent rounded-full border-2 border-blue-700 py-1 px-4"

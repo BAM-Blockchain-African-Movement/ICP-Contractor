@@ -1,4 +1,3 @@
-import React from "react";
 import { FaUniversity, FaLock, FaHandshake, FaGlobe, FaUsers, FaCheckCircle } from 'react-icons/fa';
 
 const AboutUsPage = () => {

@@ -8,7 +8,10 @@ import HashMap "mo:base/HashMap";
 import Hash "mo:base/Hash";
 import Result "mo:base/Result";
 
-// user information
+// Define the MintingCanister actor
+actor {
+
+  // user information
 type User = {
   id: Principal;
   username: Text;
@@ -32,8 +35,6 @@ type NFT = {
   diplomaInfo: DiplomaInfo;
 };
 
-// Define the MintingCanister actor
-actor MintingCanister {
   // Variable to store the NFTs
   var nfts: [NFT] = [];
   var nextId: Nat = 0000;
@@ -82,13 +83,18 @@ actor MintingCanister {
   };
 
   // Get a specific user NFT
+  public func getNFT(nftId: Nat): async ?NFT {
+    Debug.print(debug_show("--- Getting NFT N. " # Nat.toText(nftId) # " ---"));
+    return Array.find(nfts, func (nft: NFT): Bool { nft.id == nftId });
+  };
+
   public func getNFTsByOwner(owner: Principal): async [NFT] {
     Debug.print(debug_show("--- Getting NFTs by owner " # Principal.toText(owner) # " ---"));
     return Array.filter(nfts, func (nft: NFT): Bool { nft.owner_id == owner });
   };
 
   public func getOwnerNFTsNumber(owner: Principal): async Nat {
-    Debug.print(debug_show("--- Getting NFTs by owner " # Principal.toText(owner) # " ---"));
+    Debug.print(debug_show("--- Getting an owner " # Principal.toText(owner) # " NFTs number  ---"));
     return Array.size(Array.filter(nfts, func (nft: NFT): Bool { nft.owner_id == owner }));
   };
 

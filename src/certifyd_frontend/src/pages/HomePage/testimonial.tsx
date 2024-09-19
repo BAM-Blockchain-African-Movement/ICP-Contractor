@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import type { CarouselApi } from "@relume_io/relume-ui";
 import { useState, useEffect } from "react";

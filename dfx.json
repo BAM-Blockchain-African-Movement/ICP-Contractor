@@ -9,10 +9,10 @@
         "certifyd_backend"
       ],
       "frontend": {
-        "entrypoint": "src/certifyd_frontend/react/index.html"
+        "entrypoint": "src/certifyd_frontend/index.html"
       },
       "source": [
-        "src/certifyd_frontend/assets"
+        "src/certifyd_frontend/src/assets"
       ],
       "type": "assets"
     }

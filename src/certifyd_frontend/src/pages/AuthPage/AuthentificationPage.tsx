@@ -1,8 +1,11 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Diploma from "./../../components/Diploma.tsx";
 import graduatedCap from "./../../assets/auth_Laureat.jpg";
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import Spinner from './../../components/Spinner.tsx';
+
+import { certifyd_backend } from "../../../../declarations/certifyd_backend";
+
 
 interface DiplomaData {
   fullName: string;
@@ -15,19 +18,24 @@ interface DiplomaData {
 const AuthenticationPage = () => {
   const [data, setData] = useState<DiplomaData | null>(null);
   const [loading, setLoading] = useState(true);
+  const { id } = useParams();
+  const nftId = BigInt(id);
 
-  useEffect(() => {
+  useEffect( () => {
     const fetchStats = async () => {
       // Simulate API call to get stats
       try {
-        setTimeout(() => {
-          setData({
-            fullName: '',
-            institution: '',
-            diplomaType: '',
-            description: '',
-            profilePicture: ''
-          });
+        setTimeout(async () => {
+          if (!(data)) {
+            const result = await certifyd_backend.getNFT(nftId);
+            setData({
+              fullName: result[0].diplomaInfo.studentName,
+              institution: result[0].diplomaInfo.institution,
+              diplomaType: result[0].diplomaInfo.diplomaType,
+              description: result[0].diplomaInfo.description,
+              profilePicture: '' 
+            });
+          }
         }, 1500);
       } catch(error) {
         console.log('Error fecthing data fro the backend canister: /n>>>' + error)

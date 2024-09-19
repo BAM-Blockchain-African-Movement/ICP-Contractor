@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 type Props = {
   heading: string;
   description: string;
-  buttons: ButtonProps[];
+  buttons: ButtonProps[]; 
 };
 
 export type Cta25Props = React.ComponentPropsWithoutRef<"section"> & Partial<Props>;

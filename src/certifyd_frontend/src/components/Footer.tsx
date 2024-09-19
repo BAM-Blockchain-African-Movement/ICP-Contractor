@@ -1,4 +1,3 @@
-import React from 'react'
 import logoFacebook from "./../assets/Footer/footerFacebook.png";
 import logoLinkedIn from "./../assets/Footer/footerLinkedIn.png";
 import logoX from "./../assets/Footer/footerX.png";

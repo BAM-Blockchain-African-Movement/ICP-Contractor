@@ -1,9 +1,8 @@
-import { Button } from "@relume_io/relume-ui";
 import type { ButtonProps } from "@relume_io/relume-ui";
 import headerimage from "./../../assets/ceremony-1866532_1280.jpg";
 
 type ImageProps = {
-  src: string;
+  src: string; 
   alt?: string;
 };
 
@@ -16,7 +15,7 @@ type Props = {
 
 export type Header1Props = React.ComponentPropsWithoutRef<"section"> & Partial<Props>;
 
-export const Header = (props: Header1Props) => {
+export const Header = () => {
   
   return (
     <>

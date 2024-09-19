@@ -1,5 +1,5 @@
-import React from 'react';
-import { Route, Router, createBrowserRouter, createRoutesFromElements, RouterProvider } from 'react-router-dom';
+// import React from 'react';
+import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider } from 'react-router-dom';
 import LoginPage from './pages/SignupLoginPage/LoginPage';
 import SignupPage from './pages/SignupLoginPage/SignupPage';
 import HomePage from './pages/HomePage/homePage';
@@ -12,20 +12,21 @@ import InformationPage from './pages/InformationPage/InformationPage';
 
 import PageLayout from './layout/pageLayout';
 
-import { initializeApp } from "firebase/app";
+//  Handle login/register using Firebase 
+// import { initializeApp } from "firebase/app";
 
-// Votre configuration Firebase
-const firebaseConfig = {
-  apiKey: "AIzaSyCHxp8zCuaOSskCuMmUphku2NAOfF5XKTE",
-  authDomain: "contractor-8e686.firebaseapp.com",
-  projectId: "contractor-8e686",
-  storageBucket: "contractor-8e686.appspot.com",
-  messagingSenderId: "421509078183",
-  appId: "1:421509078183:web:44c44437dbcc33c81d4f82"
-};
+// // Votre configuration Firebase
+// const firebaseConfig = {
+//   apiKey: "AIzaSyCHxp8zCuaOSskCuMmUphku2NAOfF5XKTE",
+//   authDomain: "contractor-8e686.firebaseapp.com",
+//   projectId: "contractor-8e686",
+//   storageBucket: "contractor-8e686.appspot.com",
+//   messagingSenderId: "421509078183",
+//   appId: "1:421509078183:web:44c44437dbcc33c81d4f82"
+// };
 
-// Initialise Firebase avec votre configuration
-const app = initializeApp(firebaseConfig);
+// // Initialise Firebase avec votre configuration
+// const app = initializeApp(firebaseConfig);
 const ownerId = '009';
 
 function App() {
